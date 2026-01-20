@@ -1,0 +1,78 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title": "GitLens 汉化映射文件架构",
+	"type": "object",
+	"properties": {
+		"version": {
+			"type": "string",
+			"description": "汉化文件版本"
+		},
+		"locale": {
+			"type": "string",
+			"description": "目标语言代码，如 zh-CN"
+		},
+		"contributions": {
+			"type": "object",
+			"description": "package.json contributions 翻译",
+			"properties": {
+				"commands": {
+					"type": "object",
+					"description": "命令翻译映射",
+					"patternProperties": {
+						"^gitlens\\.": {
+							"type": "object",
+							"properties": {
+								"title": { "type": "string" },
+								"category": { "type": "string" }
+							}
+						}
+					}
+				},
+				"views": {
+					"type": "object",
+					"description": "视图翻译映射",
+					"patternProperties": {
+						"^gitlens\\.views\\.": {
+							"type": "object",
+							"properties": {
+								"name": { "type": "string" },
+								"contextualTitle": { "type": "string" }
+							}
+						}
+					}
+				},
+				"configuration": {
+					"type": "object",
+					"description": "配置项翻译映射"
+				}
+			}
+		},
+		"webviews": {
+			"type": "object",
+			"description": "Webview 界面文本翻译",
+			"properties": {
+				"patterns": {
+					"type": "array",
+					"description": "正则表达式替换规则",
+					"items": {
+						"type": "object",
+						"properties": {
+							"match": { "type": "string" },
+							"replace": { "type": "string" }
+						},
+						"required": ["match", "replace"]
+					}
+				},
+				"exact": {
+					"type": "object",
+					"description": "精确匹配替换规则",
+					"additionalProperties": { "type": "string" }
+				}
+			}
+		},
+		"statusBar": {
+			"type": "object",
+			"description": "状态栏文本翻译"
+		}
+	}
+}

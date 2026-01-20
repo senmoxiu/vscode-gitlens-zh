@@ -1,0 +1,324 @@
+{
+	"$schema": "./zh-cn.schema.json",
+	"_comment": "GitLens 简体中文汉化映射文件 - 构建时自动注入，无需修改源码",
+	"version": "1.0.0",
+	"locale": "zh-CN",
+
+	"contributions": {
+		"_comment": "package.json 中的 VS Code 贡献点翻译",
+
+		"commands": {
+			"gitlens.addAuthors": {
+				"title": "添加共同作者...",
+				"category": "GitLens"
+			},
+			"gitlens.ai.enable": {
+				"title": "启用 AI 功能...",
+				"category": "GitLens"
+			},
+			"gitlens.ai.explainBranch": {
+				"title": "解释分支更改 (预览)...",
+				"category": "GitLens"
+			},
+			"gitlens.ai.explainCommit": {
+				"title": "解释提交更改 (预览)...",
+				"category": "GitLens"
+			},
+			"gitlens.showCommitDetailsView": {
+				"title": "显示提交详情",
+				"category": "GitLens"
+			},
+			"gitlens.showGraph": {
+				"title": "显示提交图",
+				"category": "GitLens"
+			},
+			"gitlens.showGraphView": {
+				"title": "显示提交图视图",
+				"category": "GitLens"
+			},
+			"gitlens.showHomeView": {
+				"title": "显示主页",
+				"category": "GitLens"
+			},
+			"gitlens.showSettingsPage": {
+				"title": "打开设置",
+				"category": "GitLens"
+			},
+			"gitlens.toggleFileBlame": {
+				"title": "切换文件代码归属注释",
+				"category": "GitLens"
+			},
+			"gitlens.toggleLineBlame": {
+				"title": "切换行代码归属注释",
+				"category": "GitLens"
+			},
+			"gitlens.showBranchesView": {
+				"title": "显示分支视图",
+				"category": "GitLens"
+			},
+			"gitlens.showCommitsView": {
+				"title": "显示提交视图",
+				"category": "GitLens"
+			},
+			"gitlens.showContributorsView": {
+				"title": "显示贡献者视图",
+				"category": "GitLens"
+			},
+			"gitlens.showFileHistoryView": {
+				"title": "显示文件历史视图",
+				"category": "GitLens"
+			},
+			"gitlens.showLineHistoryView": {
+				"title": "显示行历史视图",
+				"category": "GitLens"
+			},
+			"gitlens.showRemotesView": {
+				"title": "显示远程仓库视图",
+				"category": "GitLens"
+			},
+			"gitlens.showRepositoriesView": {
+				"title": "显示仓库视图",
+				"category": "GitLens"
+			},
+			"gitlens.showSearchAndCompareView": {
+				"title": "显示搜索与比较视图",
+				"category": "GitLens"
+			},
+			"gitlens.showStashesView": {
+				"title": "显示贮藏视图",
+				"category": "GitLens"
+			},
+			"gitlens.showTagsView": {
+				"title": "显示标签视图",
+				"category": "GitLens"
+			},
+			"gitlens.showWorktreesView": {
+				"title": "显示工作树视图",
+				"category": "GitLens"
+			},
+			"gitlens.openChanges": {
+				"title": "打开更改",
+				"category": "GitLens"
+			},
+			"gitlens.openFile": {
+				"title": "打开文件",
+				"category": "GitLens"
+			},
+			"gitlens.openFileRevision": {
+				"title": "打开文件修订版本",
+				"category": "GitLens"
+			},
+			"gitlens.compareWith": {
+				"title": "比较...",
+				"category": "GitLens"
+			},
+			"gitlens.diffWith": {
+				"title": "与...对比",
+				"category": "GitLens"
+			},
+			"gitlens.copyRemoteFileUrl": {
+				"title": "复制远程文件 URL",
+				"category": "GitLens"
+			},
+			"gitlens.copyRemoteUrl": {
+				"title": "复制远程 URL",
+				"category": "GitLens"
+			}
+		},
+
+		"views": {
+			"gitlens.views.commits": {
+				"name": "提交"
+			},
+			"gitlens.views.branches": {
+				"name": "分支"
+			},
+			"gitlens.views.remotes": {
+				"name": "远程仓库"
+			},
+			"gitlens.views.stashes": {
+				"name": "贮藏"
+			},
+			"gitlens.views.tags": {
+				"name": "标签"
+			},
+			"gitlens.views.worktrees": {
+				"name": "工作树"
+			},
+			"gitlens.views.contributors": {
+				"name": "贡献者"
+			},
+			"gitlens.views.repositories": {
+				"name": "仓库"
+			},
+			"gitlens.views.commitDetails": {
+				"name": "提交详情"
+			},
+			"gitlens.views.fileHistory": {
+				"name": "文件历史"
+			},
+			"gitlens.views.lineHistory": {
+				"name": "行历史"
+			},
+			"gitlens.views.searchAndCompare": {
+				"name": "搜索与比较"
+			},
+			"gitlens.views.home": {
+				"name": "主页",
+				"contextualTitle": "GitLens 主页"
+			},
+			"gitlens.views.graph": {
+				"name": "提交图",
+				"contextualTitle": "GitLens 提交图"
+			}
+		},
+
+		"configuration": {
+			"_comment": "设置项翻译示例，完整列表需要从 package.json 提取",
+			"gitlens.showWelcomeOnInstall": {
+				"description": "安装后显示欢迎页面"
+			},
+			"gitlens.defaultDateFormat": {
+				"description": "指定日期格式"
+			}
+		}
+	},
+
+	"webviews": {
+		"_comment": "Webview 界面文本翻译 - 支持正则匹配",
+
+		"patterns": [
+			{
+				"match": "GitLens is now installed in (.+)",
+				"replace": "GitLens 已安装到 $1"
+			},
+			{
+				"match": "Understand every line of code — instantly",
+				"replace": "即时理解每一行代码"
+			},
+			{
+				"match": "With <span class=\"accent\">PRO</span> subscription you get more",
+				"replace": "订阅 <span class=\"accent\">PRO</span> 版本可获得更多功能"
+			},
+			{
+				"match": "Blame Annotations & Hovers",
+				"replace": "代码归属注释与悬停提示"
+			},
+			{
+				"match": "See who changed what and why",
+				"replace": "查看谁在何时修改了什么及原因"
+			},
+			{
+				"match": "Learn more about inline blame",
+				"replace": "了解更多关于内联代码归属"
+			},
+			{
+				"match": "Configure autolinks",
+				"replace": "配置自动链接"
+			},
+			{
+				"match": "GitLens Inspect",
+				"replace": "GitLens 检查"
+			},
+			{
+				"match": "Open GitLens Inspect",
+				"replace": "打开 GitLens 检查"
+			},
+			{
+				"match": "Dive deep into the revision history",
+				"replace": "深入了解修订历史"
+			}
+		],
+
+		"exact": {
+			"_comment": "精确匹配替换 - 性能更好",
+			"Autolinks": "自动链接",
+			"Branches": "分支",
+			"Commits": "提交",
+			"Contributors": "贡献者",
+			"File History": "文件历史",
+			"Line History": "行历史",
+			"Remotes": "远程仓库",
+			"Repositories": "仓库",
+			"Stashes": "贮藏",
+			"Tags": "标签",
+			"Worktrees": "工作树",
+			"Settings": "设置",
+			"Welcome": "欢迎",
+			"Pro Features": "Pro 功能",
+			"Try GitLens Pro": "试用 GitLens Pro",
+			"Sign In": "登录",
+			"Sign Up": "注册",
+			"Home": "主页",
+			"Commit Graph": "提交图",
+			"Timeline": "时间线",
+			"Visual File History": "可视化文件历史",
+			"Search & Compare": "搜索与比较",
+			"Launchpad": "启动板",
+			"Inspect": "检查",
+			"Commit Details": "提交详情",
+			"Open Changes": "打开更改",
+			"Open File": "打开文件",
+			"Copy Remote URL": "复制远程 URL",
+			"Copy SHA": "复制 SHA",
+			"Copy Message": "复制消息",
+			"Show in Commit Graph": "在提交图中显示",
+			"Show More Actions": "显示更多操作",
+			"Compare Changes": "比较更改",
+			"Compare with Previous": "与上一版本比较",
+			"Compare with HEAD": "与 HEAD 比较",
+			"Compare with Working Tree": "与工作树比较",
+			"Switch to Another Branch": "切换到其他分支",
+			"Create Branch": "创建分支",
+			"Delete Branch": "删除分支",
+			"Rename Branch": "重命名分支",
+			"Merge Branch": "合并分支",
+			"Rebase Branch": "变基分支",
+			"Cherry Pick Commit": "拣选提交",
+			"Revert Commit": "还原提交",
+			"Reset to Commit": "重置到此提交",
+			"Create Tag": "创建标签",
+			"Delete Tag": "删除标签",
+			"Create Worktree": "创建工作树",
+			"Delete Worktree": "删除工作树",
+			"Open in Browser": "在浏览器中打开",
+			"Open on Remote": "在远程打开",
+			"Copy Link to Clipboard": "复制链接到剪贴板",
+			"Refresh": "刷新",
+			"Filter": "筛选",
+			"Clear Filter": "清除筛选",
+			"Search": "搜索",
+			"Search Commits": "搜索提交",
+			"Find": "查找",
+			"Show All": "显示全部",
+			"Show Less": "显示更少",
+			"Expand All": "展开全部",
+			"Collapse All": "折叠全部",
+			"Loading": "加载中",
+			"No Results": "无结果",
+			"Author": "作者",
+			"Authored": "创作于",
+			"Committer": "提交者",
+			"Committed": "提交于",
+			"Message": "消息",
+			"Files Changed": "更改的文件",
+			"Insertions": "插入",
+			"Deletions": "删除",
+			"Changes": "更改"
+		}
+	},
+
+	"statusBar": {
+		"_comment": "状态栏文本翻译",
+		"patterns": [
+			{
+				"match": "Click to Switch GitLens Modes",
+				"replace": "点击切换 GitLens 模式"
+			},
+			{
+				"match": "GitLens Mode: (.+)",
+				"replace": "GitLens 模式：$1"
+			}
+		]
+	}
+}

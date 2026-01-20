@@ -25,6 +25,7 @@ import TerserPlugin from 'terser-webpack-plugin';
 import { fileURLToPath, pathToFileURL } from 'url';
 import webpack from 'webpack';
 import WebpackRequireFromPlugin from 'webpack-require-from';
+import { LocalizationPlugin } from './scripts/webpack/LocalizationPlugin.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -277,6 +278,17 @@ function getExtensionConfig(target, mode, env) {
 				openAnalyzer: false,
 				reportFilename: path.join(out, `extension-${target}-bundle-report.html`),
 				statsFilename: path.join(out, 'stats.json'),
+			}),
+		);
+	}
+
+	// 添加汉化插件（仅生产模式且 node 目标启用）
+	if (mode === 'production' && target === 'node') {
+		plugins.push(
+			new LocalizationPlugin({
+				l10nPath: path.join(__dirname, 'l10n', 'zh-cn.json'),
+				enabled: true,
+				verbose: false,
 			}),
 		);
 	}
@@ -616,6 +628,17 @@ function getWebviewConfig(webviews, overrides, mode, env) {
 				openAnalyzer: false,
 				reportFilename: path.join(out, `${filePrefix}-bundle-report.html`),
 				statsFilename: path.join(out, `${filePrefix}-stats.json`),
+			}),
+		);
+	}
+
+	// 添加汉化插件（仅生产模式启用，避免影响开发体验）
+	if (mode === 'production') {
+		plugins.push(
+			new LocalizationPlugin({
+				l10nPath: path.join(__dirname, 'l10n', 'zh-cn.json'),
+				enabled: true,
+				verbose: false,
 			}),
 		);
 	}
