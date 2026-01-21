@@ -43,7 +43,7 @@ export class LocalizationPlugin {
 	}
 
 	/**
-	 * 替换字符串
+	 * 替换字符串 - 改进版,添加安全机制
 	 */
 	replaceStrings(source, filename) {
 		if (!this.l10nMap) {
@@ -52,15 +52,38 @@ export class LocalizationPlugin {
 
 		let result = source;
 		let replacements = 0;
+		let rollbacks = 0;
 
-		// 1. 精确匹配替换（性能优先）
+		// 1. 精确匹配替换 - 只匹配引号中的字符串字面量
 		if (this.l10nMap.webviews?.exact) {
 			for (const [en, zh] of Object.entries(this.l10nMap.webviews.exact)) {
-				const regex = new RegExp(this.escapeRegExp(en), 'g');
-				const newResult = result.replace(regex, zh);
-				if (newResult !== result) {
+				// 跳过注释和元数据
+				if (en.startsWith('_')) continue;
+
+				const escapedEn = this.escapeRegExp(en);
+				const beforeReplace = result;
+				let replaced = false;
+
+				// 分别匹配三种引号类型,避免反向引用问题
+				['"', "'", '`'].forEach(quoteChar => {
+					const quote = this.escapeRegExp(quoteChar);
+					const regex = new RegExp(`${quote}${escapedEn}${quote}`, 'g');
+					const newResult = result.replace(regex, match => {
+						return `${quoteChar}${zh}${quoteChar}`;
+					});
+					if (newResult !== result) {
+						result = newResult;
+						replaced = true;
+					}
+				});
+
+				// 安全性验证: 检测是否产生了中文标识符
+				if (replaced && this.hasChineseIdentifier(result) && !this.hasChineseIdentifier(beforeReplace)) {
+					console.warn(`⚠️  回滚 "${en}" → "${zh}" 的替换,检测到代码标识符被破坏`);
+					result = beforeReplace; // 自动回滚
+					rollbacks++;
+				} else if (replaced) {
 					replacements++;
-					result = newResult;
 				}
 			}
 		}
@@ -70,10 +93,18 @@ export class LocalizationPlugin {
 			for (const pattern of this.l10nMap.webviews.patterns) {
 				try {
 					const regex = new RegExp(pattern.match, 'g');
-					const newResult = result.replace(regex, pattern.replace);
-					if (newResult !== result) {
+					const beforeReplace = result;
+					result = result.replace(regex, pattern.replace);
+
+					// 同样检测安全性
+					if (this.hasChineseIdentifier(result) && !this.hasChineseIdentifier(beforeReplace)) {
+						console.warn(
+							`⚠️  回滚 pattern "${pattern.match}" 的替换,检测到代码标识符被破坏`,
+						);
+						result = beforeReplace;
+						rollbacks++;
+					} else if (result !== beforeReplace) {
 						replacements++;
-						result = newResult;
 					}
 				} catch (error) {
 					console.warn(`⚠️  正则表达式错误 "${pattern.match}": ${error.message}`);
@@ -86,10 +117,17 @@ export class LocalizationPlugin {
 			for (const pattern of this.l10nMap.statusBar.patterns) {
 				try {
 					const regex = new RegExp(pattern.match, 'g');
-					const newResult = result.replace(regex, pattern.replace);
-					if (newResult !== result) {
+					const beforeReplace = result;
+					result = result.replace(regex, pattern.replace);
+
+					if (this.hasChineseIdentifier(result) && !this.hasChineseIdentifier(beforeReplace)) {
+						console.warn(
+							`⚠️  回滚 statusBar pattern "${pattern.match}" 的替换,检测到代码标识符被破坏`,
+						);
+						result = beforeReplace;
+						rollbacks++;
+					} else if (result !== beforeReplace) {
 						replacements++;
-						result = newResult;
 					}
 				} catch (error) {
 					console.warn(`⚠️  正则表达式错误 "${pattern.match}": ${error.message}`);
@@ -97,16 +135,37 @@ export class LocalizationPlugin {
 			}
 		}
 
-		if (replacements > 0) {
+		if (replacements > 0 || rollbacks > 0) {
 			this.stats.filesProcessed++;
 			this.stats.stringsReplaced += replacements;
 
 			if (this.verbose) {
-				console.log(`  📝 ${filename}: ${replacements} 处替换`);
+				console.log(
+					`  📝 ${filename}: ${replacements} 处替换${rollbacks > 0 ? `, ${rollbacks} 处回滚` : ''}`,
+				);
 			}
 		}
 
 		return result;
+	}
+
+	/**
+	 * 检测代码中是否出现中文标识符(破坏的标志)
+	 */
+	hasChineseIdentifier(code) {
+		// 检测: export/import/class/function/const/let/var 后面跟中文
+		if (/(?:export|import|class|function|const|let|var)\s+[\u4e00-\u9fa5]/.test(code)) {
+			return true;
+		}
+		// 检测: 对象属性名为中文 {主页: 或 .主页
+		if (/[{.][\u4e00-\u9fa5]+[:\s]/.test(code)) {
+			return true;
+		}
+		// 检测: 函数调用/方法链中的中文标识符
+		if (/[\u4e00-\u9fa5]+\s*\(/.test(code)) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -136,8 +195,6 @@ export class LocalizationPlugin {
 
 		// 处理所有模块
 		compiler.hooks.compilation.tap('LocalizationPlugin', (compilation) => {
-			compilation.hooks.optimizeChunkAssets = undefined; // 禁用已弃用的钩子
-
 			// 使用 processAssets 钩子处理资源
 			compilation.hooks.processAssets.tap(
 				{
@@ -146,8 +203,8 @@ export class LocalizationPlugin {
 				},
 				(assets) => {
 					for (const [filename, asset] of Object.entries(assets)) {
-						// 只处理 .js 和 .html 文件
-						if (!/\.(js|html)$/.test(filename)) {
+						// 只处理 .js 文件（HTML 文件是模板，不应直接替换）
+						if (!/\.js$/.test(filename)) {
 							continue;
 						}
 

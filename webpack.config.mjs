@@ -282,17 +282,6 @@ function getExtensionConfig(target, mode, env) {
 		);
 	}
 
-	// 添加汉化插件（仅生产模式且 node 目标启用）
-	if (mode === 'production' && target === 'node') {
-		plugins.push(
-			new LocalizationPlugin({
-				l10nPath: path.join(__dirname, 'l10n', 'zh-cn.json'),
-				enabled: true,
-				verbose: false,
-			}),
-		);
-	}
-
 	return {
 		name: `extension:${target}`,
 		entry: {
@@ -638,7 +627,7 @@ function getWebviewConfig(webviews, overrides, mode, env) {
 			new LocalizationPlugin({
 				l10nPath: path.join(__dirname, 'l10n', 'zh-cn.json'),
 				enabled: true,
-				verbose: false,
+				verbose: true,
 			}),
 		);
 	}
